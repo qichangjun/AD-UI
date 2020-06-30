@@ -26,10 +26,9 @@ export class AdTreeService {
                             res
                         //   this._responseHandleService.extractData(res)
                         )
-                        .catch(error =>
-                            error
-                        //   this._responseHandleService.handleError(error)
-                        );
+                        .catch(error =>{
+                           alert(error.error.message) 
+                        });
     }
 
     getTreeChildren(

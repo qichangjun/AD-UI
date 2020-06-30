@@ -1,7 +1,7 @@
 
 # AD-UI [![npm version](https://badge.fury.io/js/ng2-file-upload.svg)](http://badge.fury.io/js/ng2-file-upload) [![npm downloads](https://img.shields.io/npm/dm/ng2-file-upload.svg)](https://npmjs.org/ng2-file-upload)
 
-Easy to use Angular2 directives for files upload ([demo](http://valor-software.github.io/ng2-file-upload/))
+Easy to use Augular 7.0 UI
 
 [![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://github.com/mgechev/angular2-style-guide)
 
@@ -37,7 +37,7 @@ Easy to use Angular2 directives for files upload ([demo](http://valor-software.g
     ```imports: [ ... AdUiModule, ... ]```
 
 
-## API for `AdUiTreeComponent`
+## API for `AdTreeComponent`
 
 ### Properties
 
@@ -62,3 +62,45 @@ Easy to use Angular2 directives for files upload ([demo](http://valor-software.g
     data? : any[]                                       ```树节点数据```
 
     enableCheck? : boolean                              ```是否显示checkbox```
+
+### Html Example 
+
+        <ad-tree [option]="option" [nzTreeTemplateDiy]="nzTreeTemplateDiy"
+                [ids]="ids"
+                (clickTree)="clickTree($event)"
+        >
+                        <!-- <ng-template #nzTreeTemplateDiy let-node>
+                        <span class="custom-node">
+                            <span *ngIf="!node.isLeaf" >
+                            
+                            <span class="folder-name">{{ node.title }} </span>
+                            </span>
+                            <span *ngIf="node.isLeaf">
+                            
+                            <span class="file-name">{{ node.title }}</span>
+                            </span>
+                        </span>
+                        </ng-template> -->
+        </ad-tree>
+
+## API for `AdPaginationComponent`
+
+### Properties
+
+- @Input() isSelectAll: boolean = false;          ```是否跨页全选```
+
+- @Input() totalElement: number = 0;              ```总数```
+
+- @Input() currentPage: number = 1;               ```当前页```
+
+- @Input() pageSize?: string = '50';              ```每页大小```
+
+- @Input() enableSelectAll : boolean = false      ```是否允许跨页全选```
+
+- @Output() selectAll : EventEmitter<any> = new EventEmitter();   ```全选事件```
+
+### Html Example
+
+        <ad-pagination [pageSize]="parameter.pageSize"
+        [totalElement]="parameter.totalElement"
+        [currentPage]="parameter.currentPage"></ad-pagination>
