@@ -25,16 +25,12 @@ Easy to use Augular 7.0 UI
 
 2. Import `AdUiModule` into the module that declares the component using ***ad-ui***:
 
-    ```import { AdUiModule } from 'ad-ui';```
-
-   you can also import the component you need from the specify module ***like this***:
-
-    ``` import { AdUiTreeComponent } from 'ad-ui'; ```
+    ```import { AdTreeModule } from 'ng-ad-ui';```
 
 
 3. Add it to `[imports]` under `@NgModule`:
 
-    ```imports: [ ... AdUiModule, ... ]```
+    ```imports: [ ... AdTreeModule, ... ]```
 
 
 ## API for `AdTreeComponent`
