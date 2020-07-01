@@ -39,32 +39,57 @@ Easy to use Augular 7.0 UI
 
 - `option` - (`AdTreeOption`) - AdTreeOption object. 
 
-    url : string;                          ```后台接口地址```
+    |  属性名   | 类型   |   required  |   默认值        |  描述  |
+    |  ----    | ----  |    ---      |   ----         | ---   |
+    |  [url]     | string |    true     |    null        | 后台接口地址 |
+    |  [headers] | {[key: string]: any;} |    false    |    null        | 传给后台的header|
+    |  [additionParams]     | {[key: string]: any;} |    false     |    null        | 额外传给后台的参数 |
+    |  [ajaxFilterFn]     | (data:any[])=>NzTreeNodeOptions[] |    false     |    Function        | 异步加载子节点后格式数据的方法 |
+    |  [additionRootData]     | any[] |    false     |    []        | 额外添加跟节点数据 |
+    |  [rootId]     | string|number |    false     |    0        | 根节点id |
+    |  [formatDataFn]     | (data:any)=>NzTreeNodeOptions[] |    false     |    Function        | 初始化后台返回的数据的方法 |
+    |  [data]     | any[] |    false     |    []        | 树节点数据 |
+    |  [enableCheck]     | boolean |    false     |    false        | 是否显示checkbox |
 
-    headers? : {[key: string]: any;}       ```传给后台的header```
+- `ids` - (`string[]`) - 当前树激活的节点的全路径，一般默认开始时为```['0']```
 
-    additionParams? : {[key: string]: any;} ```额外传给后台的参数```
+    |  属性名   | 类型   |   required  |   默认值        |  描述  |
+    |  ----    | ----  |    ---      |   ----         | ---   |
+    |  [ids] | string[] |    true    |    null        |   |
 
-    ajaxFilterFn? : (data:any[])=>NzTreeNodeOptions[]   ```异步加载子节点后格式数据的方法```
+- `clickTree` - (`EventEmitter<clickTreeNodeEvent>`) - 点击树节点的事件
 
-    additionRootData? : any[]                           ```额外添加跟节点数据```
+    |  属性名   | 类型   |   required  |   默认值        |  描述  |
+    |  ----    | ----  |    ---      |   ----         | ---   |
+    |  (clickTree) | EventEmitter |    false    |    null        | 点击树节点的事件  |
 
-    rootId? : string | number                           ```根节点id    ```
+- `nzTreeTemplateDiy` - (`TemplateRef<{ $implicit: NzTreeNode; origin: NzTreeNodeOptions }>`) - 树节点自定义内部dom节点
 
-    formatDataFn? : (data:any)=>NzTreeNodeOptions[]     ```初始化后台返回的数据的方法```
+    |  属性名   | 类型   |   required  |   默认值        |  描述  |
+    |  ----    | ----  |    ---      |   ----         | ---   |
+    |  [nzTreeTemplateDiy] | TemplateRef |    false    |    如下        | 点击树节点的事件  |
 
-    api? : any                                          ```映射的treecomonent里的方法 ```
+         <ng-template #nzTreeTemplate let-node>
+                <span class="custom-node" [class.active]="activedNode?.key === node.key">
+                  <span *ngIf="!node.isLeaf" >                  
+                    <span class="folder-name">{{ node.title }}</span>                    
+                  </span>
+                  <span *ngIf="node.isLeaf">
+                    
+                    <span class="file-name">{{ node.title }}</span>
+                  </span>
+                </span>
+        </ng-template>
 
-    data? : any[]                                       ```树节点数据```
-
-    enableCheck? : boolean                              ```是否显示checkbox```
-
-### Html Example 
+### 具体使用方法 
+***HTML:***
 
         <ad-tree [option]="option" [nzTreeTemplateDiy]="nzTreeTemplateDiy"
                 [ids]="ids"
                 (clickTree)="clickTree($event)"
         >
+
+                        //自定义节点内的dom节点
                         <!-- <ng-template #nzTreeTemplateDiy let-node>
                         <span class="custom-node">
                             <span *ngIf="!node.isLeaf" >
@@ -79,24 +104,56 @@ Easy to use Augular 7.0 UI
                         </ng-template> -->
         </ad-tree>
 
-## API for `AdPaginationComponent`
+***TS:***
 
-### Properties
 
-- @Input() isSelectAll: boolean = false;          ```是否跨页全选```
+        import { Component, OnInit } from '@angular/core';
+        import { AdTreeOption, clickNodeEvent } from 'ng-ad-ui';
+        import { Router, ActivatedRoute } from '@angular/router';
 
-- @Input() totalElement: number = 0;              ```总数```
+        @Component({
+        selector: 'app-ad-ui-tree',
+        templateUrl: './ad-ui-tree.component.html',
+        styleUrls: ['./ad-ui-tree.component.scss']
+        })
+        export class AdUiTreeExampleComponent implements OnInit {
+        parameter : any={
+            ids:'0',
+            pageSize : '50',
+            currentPage : 1,
+            totalElement : 200
+        }
+        ids : string[] = ['0']
+        option : AdTreeOption = {
+            url:'http://amberdata.cn/teamworkapi1.1/basicinfogroup/get_tree_node_list',
+            additionParams : {
+            schemeId: 1002002
+            },
+            additionRootData:[{
+            id : '0',name : '分类管理',childCount:1
+            }],
+            data : [],
+            headers:{
+            accessToken: 'd76fa28aff87116fd3be5ccd4ca247c1'
+            }
+        }
+        constructor(
+            private route: ActivatedRoute,
+            private router: Router,
+        ) { }
 
-- @Input() currentPage: number = 1;               ```当前页```
+        ngOnInit() {
+            this.route.queryParams.subscribe((params: any) => {
+            if (params.ids){
+                this.ids = params.ids.split('*')
+                this.parameter.ids = params.ids 
+            }      
+            })
+        }
 
-- @Input() pageSize?: string = '50';              ```每页大小```
-
-- @Input() enableSelectAll : boolean = false      ```是否允许跨页全选```
-
-- @Output() selectAll : EventEmitter<any> = new EventEmitter();   ```全选事件```
-
-### Html Example
-
-        <ad-pagination [pageSize]="parameter.pageSize"
-        [totalElement]="parameter.totalElement"
-        [currentPage]="parameter.currentPage"></ad-pagination>
+        clickTree(clickNodeParams:clickNodeEvent){
+            this.ids = clickNodeParams.ids
+            this.parameter.ids = this.ids.join('*')
+            this.router.navigate([],{queryParams:this.parameter})
+        }
+        }
