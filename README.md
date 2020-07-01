@@ -75,16 +75,23 @@ Easy to use Augular 7.0 UI
                     <span class="folder-name">{{ node.title }}</span>                    
                   </span>
                   <span *ngIf="node.isLeaf">
-                    
                     <span class="file-name">{{ node.title }}</span>
                   </span>
                 </span>
         </ng-template>
 
+
+- `Method` - AdTreeComponent的api方法
+
+    |  方法名   |   params  |   return        |  描述  |
+    |  ----    |     ---      |   ----         | ---   |
+    |  updateNode  |    key    |    null        | 根据id，刷新该节点下的子节点  |
+
+
 ### 具体使用方法 
 ***HTML:***
 
-        <ad-tree [option]="option" [nzTreeTemplateDiy]="nzTreeTemplateDiy"
+        <ad-tree #adUiTree [option]="option" [nzTreeTemplateDiy]="nzTreeTemplateDiy"
                 [ids]="ids"
                 (clickTree)="clickTree($event)"
         >
@@ -107,7 +114,7 @@ Easy to use Augular 7.0 UI
 ***TS:***
 
 
-        import { Component, OnInit } from '@angular/core';
+        import { Component, OnInit,ViewChild } from '@angular/core';
         import { AdTreeOption, clickNodeEvent } from 'ng-ad-ui';
         import { Router, ActivatedRoute } from '@angular/router';
 
@@ -117,6 +124,7 @@ Easy to use Augular 7.0 UI
         styleUrls: ['./ad-ui-tree.component.scss']
         })
         export class AdUiTreeExampleComponent implements OnInit {
+        @ViewChild('adUiTree') adUiTree;
         parameter : any={
             ids:'0',
             pageSize : '50',
@@ -155,5 +163,10 @@ Easy to use Augular 7.0 UI
             this.ids = clickNodeParams.ids
             this.parameter.ids = this.ids.join('*')
             this.router.navigate([],{queryParams:this.parameter})
+        }
+         refreshNode(){
+            //刷新当前选中的节点
+            let id = this.ids[this.ids.length - 1]
+            this.adUiTree.updateNode(id)
         }
         }

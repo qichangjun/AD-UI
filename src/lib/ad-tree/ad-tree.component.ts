@@ -36,7 +36,13 @@ export class AdTreeComponent implements OnInit,OnChanges {
   ngAfterViewInit(): void {
   }
 
-  private formatData(data):NzTreeNodeOptions[]{
+  /**
+   * 
+   * @param data 默认后台返回的数据
+   * [{parentId,id,name,childCount}]
+   * 转换成 NzTreeNodeOptions 的格式
+   */
+  private formatData(data:any[]):NzTreeNodeOptions[]{
     data.forEach(node => {
       node.isLeaf = node.childCount == 0 || !node.childCount
       node.title = node.name
@@ -72,9 +78,12 @@ export class AdTreeComponent implements OnInit,OnChanges {
 
   public async nzCheck(event: NzFormatEmitEvent) {    
     // load child async    
-    if (event.eventName === 'expand' || event.eventName === 'click') {      
+    if (event.eventName === 'expand' || event.eventName === 'click') {    
       const node = event.node;      
-      if (node && node.getChildren().length === 0 && node.isExpanded) {
+      if (node         
+        && node.isExpanded) {
+          node.clearChildren()
+        node.isLoading = true
         let res = await this._AdTreeService.getTreeChildren(
           this.option.url,
           this.option.headers,
@@ -83,6 +92,7 @@ export class AdTreeComponent implements OnInit,OnChanges {
         )
         let data = this.option.ajaxFilterFn(res)
         node.addChildren(data);     
+        node.isLoading = false
       }
     }
   }
@@ -96,7 +106,7 @@ export class AdTreeComponent implements OnInit,OnChanges {
       data.isExpanded = !data.isExpanded;
     } else {
       const node = data.node;
-      if (node) {
+      if (node) {        
         node.isExpanded = !node.isExpanded;
       }
     }
@@ -141,8 +151,20 @@ export class AdTreeComponent implements OnInit,OnChanges {
     })
   }
 
-  public updateNode(key:string){
-
+  public async updateNode(key:string){
+    let node = this.nzTreeComponent.getTreeNodeByKey(key)   
+    node.clearChildren()
+    let res = await this._AdTreeService.getTreeChildren(
+      this.option.url,
+      this.option.headers,
+      this.option.additionParams,
+      node.key
+    )    
+    let data = this.option.ajaxFilterFn(res)
+    if (data.length > 0 ){
+      node.isLeaf = false 
+    }
+    node.addChildren(data);    
   }
 
   ngOnChanges(changes: { [propertyName: string]: SimpleChange }){
