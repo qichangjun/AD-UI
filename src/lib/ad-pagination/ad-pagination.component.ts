@@ -46,18 +46,33 @@ export class AdPaginationComponent implements OnInit {
       var keycode = window.event ? e.keyCode : e.which;//获取按键编码
       if (keycode == 13) {
           this.currentPage = this.save_currentPage
-          this.router.navigate([],{queryParams:{currentPage:this.currentPage,totalElement:this.totalElement,isSelectAll:this.isSelectAll,pageSize:this.pageSize},queryParamsHandling:'merge'})
+          this.router.navigate([],{queryParams:{
+              currentPage:this.currentPage,
+              totalElement:this.totalElement,
+              isSelectAll:this.isSelectAll,
+              pageSize:this.pageSize
+            },queryParamsHandling:'merge'})
       }
       
   }
 
   changePageBtn(){
       this.save_currentPage = this.currentPage
-      this.router.navigate([],{queryParams:{currentPage:this.currentPage,totalElement:this.totalElement,isSelectAll:this.isSelectAll,pageSize:this.pageSize},queryParamsHandling:'merge'})
+      this.router.navigate([],{queryParams:{
+          currentPage:this.currentPage,
+          totalElement:this.totalElement,
+          isSelectAll:this.isSelectAll,
+          pageSize:this.pageSize
+        },queryParamsHandling:'merge'})
   }
 
   changePageSize(e?) {
       this.currentPage = 1
-      this.router.navigate([],{queryParams:{currentPage:this.currentPage,totalElement:this.totalElement,isSelectAll:this.isSelectAll,pageSize:this.pageSize},queryParamsHandling:'merge'})
+      this.router.navigate([],{queryParams:{
+          currentPage:this.currentPage,
+          totalElement:this.totalElement,
+          isSelectAll:this.isSelectAll,
+          pageSize:this.pageSize
+        },queryParamsHandling:'merge'})
   }
 }

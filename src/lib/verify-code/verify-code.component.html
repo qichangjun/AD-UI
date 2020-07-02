@@ -1,0 +1,10 @@
+<input  placeholder="验证码"
+ name="verification" 
+ #verificationInput
+ [ngModel]="displayValue" 
+  (ngModelChange)="changeValue($event)"
+ >
+<div class="get_code code" (click)="drawCode('')" #verifyCodeContainer>
+  <canvas width="75" height="28" id="verifyCanvas"></canvas>
+  <img #code_img>
+</div>
