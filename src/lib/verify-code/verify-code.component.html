@@ -1,7 +1,9 @@
 <input  placeholder="验证码"
+  matInput
  name="verification" 
  #verificationInput
  [ngModel]="displayValue" 
+ [placeholder]="adPlaceHolder"
   (ngModelChange)="changeValue($event)"
  >
 <div class="get_code code" (click)="drawCode('')" #verifyCodeContainer>

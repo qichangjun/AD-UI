@@ -16,6 +16,7 @@ export const EXE_COUNTER_VALUE_ACCESSOR: any = {
 })
 export class VerifyCodeComponent implements OnInit,ControlValueAccessor {
   @Input() _valueInfo: string;
+  @Input() adPlaceHolder? : string;
   @ViewChild('verifyCodeContainer') verifyCodeContainer;
   @ViewChild('verifyCanvas') verifyCanvas;  
   @ViewChild('code_img') codeImg;
