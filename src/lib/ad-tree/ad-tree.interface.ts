@@ -10,6 +10,7 @@ export interface AdTreeOption{
         [key: string]: any;
     }
     ajaxFilterFn? : (data:any[])=>NzTreeNodeOptions[]   //异步加载子节点后格式数据的方法
+    beforeGetChildrenFn? : (node:NzTreeNode)=>void      //获取子节点前的方法
     additionRootData? : any[]                           //额外添加跟节点数据
     rootId? : string | number                           //根节点id    
     formatDataFn? : (data:any)=>NzTreeNodeOptions[]     //初始化后台返回的数据的方法

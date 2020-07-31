@@ -21,6 +21,7 @@ export class AdTreeComponent implements OnInit,OnChanges {
     rootId : 0,
     formatDataFn:this.formatData.bind(this),
     ajaxFilterFn : this.ajaxFilter.bind(this),
+    beforeGetChildrenFn : this.beforeGetChildren.bind(this),
     api : this.nzTreeComponent,
     data : [],
     enableCheck : false 
@@ -76,6 +77,9 @@ export class AdTreeComponent implements OnInit,OnChanges {
     return data
   }
 
+  private beforeGetChildren(node:NzTreeNode){
+    return 
+  }
   public async nzCheck(event: NzFormatEmitEvent) {    
     // load child async    
     if (event.eventName === 'expand' || event.eventName === 'click') {    
@@ -84,6 +88,7 @@ export class AdTreeComponent implements OnInit,OnChanges {
         && node.isExpanded) {
           node.clearChildren()
         node.isLoading = true
+        this.option.beforeGetChildrenFn(node)
         let res = await this._AdTreeService.getTreeChildren(
           this.option.url,
           this.option.headers,
