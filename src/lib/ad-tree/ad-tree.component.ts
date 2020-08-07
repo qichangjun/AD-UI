@@ -159,6 +159,7 @@ export class AdTreeComponent implements OnInit,OnChanges {
   public async updateNode(key:string){
     let node = this.nzTreeComponent.getTreeNodeByKey(key)   
     node.clearChildren()
+    this.option.beforeGetChildrenFn(node)
     let res = await this._AdTreeService.getTreeChildren(
       this.option.url,
       this.option.headers,
