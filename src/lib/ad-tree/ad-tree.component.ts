@@ -138,7 +138,8 @@ export class AdTreeComponent implements OnInit,OnChanges {
       this.ids
     )
     if (this.option.additionRootData){
-      res = res.concat(this.option.additionRootData)
+      let additionRootData = _.cloneDeep(this.option.additionRootData)
+      res = res.concat(additionRootData)
     }    
     this.option.data = this.option.formatDataFn(res)   
     this.expandNodeByIds()
