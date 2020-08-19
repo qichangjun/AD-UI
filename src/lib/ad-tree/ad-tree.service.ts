@@ -34,11 +34,9 @@ export class AdTreeService {
     getTreeChildren(
         url : string,
         headersParams:{[key: string]: any;},
-        additionParams :{[key: string]: any;},
-        parentId : string
+        additionParams :{[key: string]: any;},        
     ) : Promise<any> {
-        let other_param : any = Object.assign({},additionParams)
-        other_param.parentId = parentId
+        let other_param : any = Object.assign({},additionParams)        
         let params = new HttpParams({fromObject:other_param})
         let headers = new HttpHeaders(headersParams)        
         return this._http.get(url,{ params: params,headers:headers })

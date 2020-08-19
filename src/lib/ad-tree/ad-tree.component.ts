@@ -24,7 +24,8 @@ export class AdTreeComponent implements OnInit,OnChanges {
     beforeGetChildrenFn : this.beforeGetChildren.bind(this),
     api : this.nzTreeComponent,
     data : [],
-    enableCheck : false 
+    enableCheck : false,
+    autoParameter : ['parentId=id']
   }
   public activedNode: NzTreeNode;
 
@@ -89,11 +90,19 @@ export class AdTreeComponent implements OnInit,OnChanges {
           node.clearChildren()
         node.isLoading = true
         this.option.beforeGetChildrenFn(node)
+        let additionParams = Object.assign({},this.option.additionParams)
+        this.option.autoParameter.forEach((autoParameter)=>{
+          let param = autoParameter.split('=')
+          if (param.length < 2){
+            console.error(`${param}的格式不正确，应该以=隔空，例如:parentId=id`)
+            return 
+          }
+          additionParams[param[0]] = event.node.origin[param[1]]
+        })
         let res = await this._AdTreeService.getTreeChildren(
           this.option.url,
           this.option.headers,
-          this.option.additionParams,
-          event.node.key
+          additionParams     
         )
         let data = this.option.ajaxFilterFn(res)
         node.addChildren(data);     
@@ -161,11 +170,19 @@ export class AdTreeComponent implements OnInit,OnChanges {
     let node = this.nzTreeComponent.getTreeNodeByKey(key)   
     node.clearChildren()
     this.option.beforeGetChildrenFn(node)
+    let additionParams = Object.assign({},this.option.additionParams)
+    this.option.autoParameter.forEach((autoParameter)=>{
+      let param = autoParameter.split('=')
+      if (param.length < 2){
+        console.error(`${param}的格式不正确，应该以=隔空，例如:parentId=id`)
+        return 
+      }
+      additionParams[param[0]] = node.origin[param[1]]
+    })
     let res = await this._AdTreeService.getTreeChildren(
       this.option.url,
       this.option.headers,
-      this.option.additionParams,
-      node.key
+      additionParams      
     )    
     let data = this.option.ajaxFilterFn(res)
     if (data.length > 0 ){

@@ -50,6 +50,7 @@ Easy to use Augular 7.0 UI
     |  [formatDataFn]     | (data:any)=>NzTreeNodeOptions[] |    false     |    Function        | 初始化后台返回的数据的方法 |
     |  [data]     | any[] |    false     |    []        | 树节点数据 |
     |  [enableCheck]     | boolean |    false     |    false        | 是否显示checkbox |
+    |  [autoParameter]     | string[] |    false     |    ['parentId=id']        | 传给后台的父节点的字段参数 |
 
 - `ids` - (`string[]`) - 当前树激活的节点的全路径，一般默认开始时为```['0']```
 

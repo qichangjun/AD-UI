@@ -17,6 +17,7 @@ export interface AdTreeOption{
     api? : any                                          //映射的treecomonent里的方法            
     data? : any[]                                       //树节点数据
     enableCheck? : boolean                              //是否显示checkbox
+    autoParameter? : string[]                            //自定义自动传递的父节点参数及参数名
 }
 
 export interface clickNodeEvent{
