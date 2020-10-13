@@ -4,6 +4,7 @@
 [nzData]="option.data"
 (nzClick)="activeNode($event)" 
 (nzExpandChange)="nzCheck($event)"
+(nzCheckBoxChange)="nzCheckBox($event)"
 >
 <ng-container *ngIf="nzTreeTemplateDiy">
         <ng-template  #nzTreeTemplate let-node>

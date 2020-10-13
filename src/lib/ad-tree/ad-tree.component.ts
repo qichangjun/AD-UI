@@ -15,6 +15,7 @@ export class AdTreeComponent implements OnInit,OnChanges {
   @Input() ids : string[]  
   @ViewChild('nzTreeComponent') nzTreeComponent: NzTreeComponent;
   @Output() clickTree: EventEmitter<any> = new EventEmitter();
+  @Output() checkBoxChange: EventEmitter<any> = new EventEmitter();
   @Input() nzTreeTemplateDiy?: TemplateRef<{ $implicit: NzTreeNode; origin: NzTreeNodeOptions }>;  
   defaultOptions : Options = {
     url : '',
@@ -80,6 +81,10 @@ export class AdTreeComponent implements OnInit,OnChanges {
 
   private beforeGetChildren(node:NzTreeNode){
     return 
+  }
+
+  public nzCheckBox(event: NzFormatEmitEvent){
+    this.checkBoxChange.emit(event)
   }
   public async nzCheck(event: NzFormatEmitEvent) {    
     // load child async    
