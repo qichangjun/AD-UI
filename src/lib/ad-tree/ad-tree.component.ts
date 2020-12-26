@@ -11,6 +11,8 @@ import { AdTreeService } from './ad-tree.service';
   styleUrls: ['./ad-tree.component.scss']
 })
 export class AdTreeComponent implements OnInit,OnChanges {
+  searchValue : string = ''
+  @Input() enableSearch : boolean = false
   @Input() option: Options;  
   @Input() ids : string[]  
   @ViewChild('nzTreeComponent') nzTreeComponent: NzTreeComponent;
@@ -90,7 +92,7 @@ export class AdTreeComponent implements OnInit,OnChanges {
     // load child async    
     if (event.eventName === 'expand' || event.eventName === 'click') {    
       const node = event.node;      
-      if (node         
+      if (node && !node.isLeaf      
         && node.isExpanded) {
           node.clearChildren()
         node.isLoading = true
@@ -109,7 +111,7 @@ export class AdTreeComponent implements OnInit,OnChanges {
           this.option.headers,
           additionParams     
         )
-        let data = this.option.ajaxFilterFn(res)
+        let data = await this.option.ajaxFilterFn(res,node)
         node.addChildren(data);     
         node.isLoading = false
       }
@@ -189,7 +191,7 @@ export class AdTreeComponent implements OnInit,OnChanges {
       this.option.headers,
       additionParams      
     )    
-    let data = this.option.ajaxFilterFn(res)
+    let data = await this.option.ajaxFilterFn(res,node)
     if (data.length > 0 ){
       node.isLeaf = false 
     }

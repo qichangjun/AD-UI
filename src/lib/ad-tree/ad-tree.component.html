@@ -1,3 +1,4 @@
+<input type="text" *ngIf="enableSearch" class="tree-search-input" placeholder="搜索" [(ngModel)]="searchValue" />
 <nz-tree
 #nzTreeComponent
 [nzCheckable]="option.enableCheck"
@@ -5,6 +6,8 @@
 (nzClick)="activeNode($event)" 
 (nzExpandChange)="nzCheck($event)"
 (nzCheckBoxChange)="nzCheckBox($event)"
+[nzCheckStrictly]="true"
+[nzSearchValue]="searchValue"
 >
 <ng-container *ngIf="nzTreeTemplateDiy">
         <ng-template  #nzTreeTemplate let-node>
